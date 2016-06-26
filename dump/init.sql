@@ -80,11 +80,11 @@ CREATE TABLE `reservations` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `reservations_user_id_foreign` (`user_id`),
   KEY `reservations_room_id_foreign` (`room_id`),
-  CONSTRAINT `reservations_room_id_foreign` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`),
-  CONSTRAINT `reservations_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  KEY `reservations_user_id_foreign` (`user_id`),
+  CONSTRAINT `reservations_room_id_foreign` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `reservations_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -93,7 +93,7 @@ CREATE TABLE `reservations` (
 
 LOCK TABLES `reservations` WRITE;
 /*!40000 ALTER TABLE `reservations` DISABLE KEYS */;
-INSERT INTO `reservations` VALUES (1,'Reunião de Review de Sprint ','2016-06-26 15:00:00','2016-06-26 17:00:00',1,1,'2016-06-25 03:00:00','2016-06-25 03:00:00');
+INSERT INTO `reservations` VALUES (11,'Reservado para Fernando - (Clique para editar)','2016-06-26 01:00:00','2016-06-26 02:00:00',1,10,'2016-06-26 23:52:51','2016-06-26 23:52:51');
 /*!40000 ALTER TABLE `reservations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -110,7 +110,7 @@ CREATE TABLE `rooms` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -119,7 +119,7 @@ CREATE TABLE `rooms` (
 
 LOCK TABLES `rooms` WRITE;
 /*!40000 ALTER TABLE `rooms` DISABLE KEYS */;
-INSERT INTO `rooms` VALUES (1,'Sala 1','2016-06-25 03:00:00','2016-06-25 03:00:00'),(2,'Sala 2','2016-06-25 03:00:00','2016-06-25 03:00:00');
+INSERT INTO `rooms` VALUES (10,'Sala de Guerra','2016-06-26 23:52:36','2016-06-26 23:52:36');
 /*!40000 ALTER TABLE `rooms` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -140,7 +140,7 @@ CREATE TABLE `users` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,7 +149,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Fernando','fernando.debrando@gmail.com','$2y$10$5ZzDlbk5GA0XT350iBRmseeZ8ksTc.Gq8w9.uU24UW.cuyV/0C1km',NULL,'2016-06-26 01:03:38','2016-06-26 01:03:38');
+INSERT INTO `users` VALUES (1,'Fernando','fernando.debrando@gmail.com','$2y$10$5ZzDlbk5GA0XT350iBRmseeZ8ksTc.Gq8w9.uU24UW.cuyV/0C1km','M7rT9rHcjt5LmdgUnpJmOz0F6bSp4sqkhjKNilsz7jS2yh7aZlaDXFoB9OwS','2016-06-26 01:03:38','2016-06-26 22:43:08'),(2,'Usuário teste','teste@teste.com.br','$2y$10$GUvR.CBfyFd2TmFRxQXVA.e6p.usT.zPDODPh9IH09W6lakwZ4.Tq','BTDyQsj7iyIm0hIDhS0nyb6GBr7heWFS0bil9PJRMYH5mAqK0j8CFVnE7GCU','2016-06-26 22:36:34','2016-06-26 22:49:54');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -162,4 +162,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-25 21:15:05
+-- Dump completed on 2016-06-26 17:56:19

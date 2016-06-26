@@ -8,7 +8,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Usuários</div>
                     <div class="panel-body">
-                      <a href="{{ URL::to('user/create') }}">Criar Usuários</a>
+                        <a href="{{ URL::to('user/create') }}">Criar Usuários</a>
 
                         @if (Session::has('message'))
                             <div class="alert alert-info">{{ Session::get('message') }}</div>
@@ -23,7 +23,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($users as $key => $value)
+                            @forelse($users as $key => $value)
                                 <tr>
                                     <td>{{ $value->id }}</td>
                                     <td>{{ $value->name }}</td>
@@ -31,7 +31,7 @@
 
                                     <td align="right">
 
-                                        {{ Form::open(array('url' => 'user/' . $value->id, 'class' => 'pull-right')) }}
+                                        {{ Form::open(array('url' => 'user/' . $value->id, 'class' => 'pull-right delete')) }}
                                         {{ Form::hidden('_method', 'DELETE') }}
                                         {{ Form::submit('Excluir', array('class' => 'btn btn-warning')) }}
                                         {{ Form::close() }}
@@ -43,7 +43,15 @@
 
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <div class="alert alert-info">Sem registros!</div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            @endforelse
                             </tbody>
                         </table>
 
@@ -52,5 +60,10 @@
             </div>
         </div>
     </div>
+    <script>
+        $(".delete").on("submit", function () {
+            return confirm("Tem certeza que quer excluir este registro? O mesmo pode ter reservas vinculadas que também serão excluidas.");
+        });
+    </script>
 @endsection
 

@@ -55,8 +55,7 @@ $(document).ready(function () {
         });
 
     });
-
-
+ 
 });
 
 function initCalendar(idRoom, reservation) {
@@ -114,8 +113,7 @@ function initCalendar(idRoom, reservation) {
                     console.log(e.responseText);
 
                 }
-            });
-            console.log(event);
+            });          
         },
         eventDrop: function (event, delta, revertFunc) {
             var title = event.title;
@@ -139,13 +137,13 @@ function initCalendar(idRoom, reservation) {
             });
         },
         eventClick: function (event, jsEvent, view) {
-            console.log(event.id);
+           
             var title = prompt('Título da reserva:', event.title, {buttons: {Ok: true, Cancel: false}});
             if (title) {
                 event.title = title;
                 var start = event.start.format("YYYY-MM-DD[T]HH:mm:SS");
                 var end = event.end.format("YYYY-MM-DD[T]HH:mm:SS");
-                console.log('type=changetitle&title=' + title + '&eventid=' + event.id);
+               
                 $.ajax({
                     url: 'reservation/' + event.id,
                     data: {'title': title, 'startdate': start, 'enddate': end, 'reservationId': event.id},
@@ -165,7 +163,7 @@ function initCalendar(idRoom, reservation) {
             }
         },
         eventResize: function (event, delta, revertFunc) {
-            console.log(event);
+           
             var title = event.title;
             var start = event.start.format("YYYY-MM-DD[T]HH:mm:SS");
             var end = event.end.format("YYYY-MM-DD[T]HH:mm:SS");
@@ -197,7 +195,7 @@ function initCalendar(idRoom, reservation) {
                         type: 'DELETE',
                         dataType: 'json',
                         success: function (response) {
-                            console.log(response);
+                            
                             if (response.status == 'success') {
                                 $('#calendar_room_' + idroom).fullCalendar('removeEvents');
                                 getFreshEventsByRoom(idroom);

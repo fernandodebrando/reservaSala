@@ -15,37 +15,28 @@
                     <div class="panel-heading">Agenda</div>
                     <div class="panel-body">
                         <ul class="nav nav-tabs">
-                            @foreach($rooms as $key => $room)
-                                <li class="{{$key == 0 ? 'active' : ''}}" data-idroom="{{$room['id']}}"><a data-toggle="tab" href="#room_{{$room['id']}}" onclick="renderCalendar({{$room['id']}})" >{{$room['name']}}</a></li>
-                            @endforeach
+                            @forelse($rooms as $key => $room)
+                                <li class="{{$key == 0 ? 'active' : ''}}" data-idroom="{{$room['id']}}"><a
+                                            data-toggle="tab" href="#room_{{$room['id']}}"
+                                            onclick="renderCalendar({{$room['id']}})">{{$room['name']}}</a></li>
+                            @empty
+                                <li>
+                                    <div class="alert alert-info">Sem registros! Primeiro deve existir uma sala cadastrada.</div>
+                                </li>
+                            @endforelse
                         </ul>
-                        <div class="tab-content">
-                            <!--div id="teste1" class="tab-pane fade in active">
-                                <div id='wrap'>
-                                    <div id='external-events'>
-                                        <h4>Arraste para a agenda a nova reserva</h4>
-                                        <div class='fc-event' data-name="{{ Auth::user()->name }}">Nova Reserva</div>
-                                        <h4>Arraste para a lixeira para excluir a reserva</h4>
-                                        <p>
-                                            <img src="assets/img/trashcan.png" id="trash" alt="">
-                                        </p>
-                                    </div>
-
-                                    <div id='calendar'></div>
-
-                                    <div style='clear:both'></div>
-
-                                </div>
-                            </div-->
+                        <div class="tab-content"><br>
                             @foreach($rooms as $key => $room)
                                 <div id="room_{{$room['id']}}" class="tab-pane fade in {{$key == 0 ? 'active' : ''}}">
                                     <div id='wrap_{{$room['id']}}' class="wrap">
                                         <div id='external-events_{{$room['id']}}' class="external-events">
                                             <h4>Arraste para a agenda a nova reserva</h4>
-                                            <div class='fc-event' data-name="{{ Auth::user()->name }}">Nova Reserva</div>
+                                            <div class='fc-event' data-name="{{ Auth::user()->name }}">Nova Reserva
+                                            </div>
                                             <h4>Arraste para a lixeira para excluir a reserva</h4>
                                             <p>
-                                                <img src="assets/img/trashcan.png" id="trash_{{$room['id']}}" alt="" class="trash">
+                                                <img src="assets/img/trashcan.png" id="trash_{{$room['id']}}" alt=""
+                                                     class="trash">
                                             </p>
                                         </div>
 

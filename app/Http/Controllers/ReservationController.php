@@ -109,7 +109,10 @@ class ReservationController extends Controller
         $enddate = $request->input('enddate').'+'.$request->input('zone');
         $idUser = Auth::user()->id;
         try{
-
+            $reservation = new Reservation();
+            if(!$reservation->validadeReservation($idUser, $startdate, $enddate, $id)){
+                throw new Exception('Não é possível reservar mais de uma sala no mesmo período.');
+            }
 
             if(!Reservation::where('user_id', $idUser)->where('id', $id)->count()){
                 throw new Exception('Para editar uma reserva você deve ser o criador da mesma.');
