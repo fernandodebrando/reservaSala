@@ -24,4 +24,4 @@ Gerenciamento de Reservas, contenplando as seguintes regras:
 
 _Dump do banco de dados disponível em "dump/init.sql"._
 
-_Disponível uma versão demo em ._
+_Disponível uma versão demo em http://reservadesala.herokuapp.com/._
