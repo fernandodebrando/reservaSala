@@ -5,15 +5,18 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Visualização de Sala</div>
+                    <div class="panel-heading">Visialização de Usuário</div>
                     <div class="panel-body">
-                        <a href="{{ URL::to('room') }}">Listagem de Salas</a>
+                        <a href="{{ URL::to('user') }}">Listagem de Usuários</a>
 
                         <h1>Visualização</h1>
 
                         <div class="jumbotron text-left">
                             <p>
-                                <strong>Nome:</strong> {{ $room->name }}
+                                <strong>Nome:</strong> {{ $user->name }}
+                            </p>
+                            <p>
+                                <strong>Email:</strong> {{ $user->email }}
                             </p>
                         </div>
 
