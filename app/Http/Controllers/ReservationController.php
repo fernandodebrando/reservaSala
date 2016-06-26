@@ -48,12 +48,16 @@ class ReservationController extends Controller
         $idRoom = $request->input('idroom');
         $idUser = Auth::user()->id;
         try{
+            $reservation = new Reservation();
+            if(!$reservation->validadeReservation($idUser, $startdate, $enddate)){
+                throw new Exception('Não é possível reservar mais de uma sala no mesmo período.');
+            }
 
             $reservation = Reservation::create(['title' => $title, 'start' => $startdate, 'end' => $enddate, 'room_id' => $idRoom, 'user_id' => $idUser]);
             $response = ['status'=>'success','reservationId'=> $reservation->id];
 
         }catch (Exception $e){
-            $response = ['status'=>'error'];
+            $response = ['status'=>'error', 'msg' => $e->getMessage()];
         }
         return $response;
     }
@@ -97,7 +101,7 @@ class ReservationController extends Controller
         try{
 
 
-            if(!collect(Reservation::where('user_id', $idUser)->where('id', $id)->get())->count()){
+            if(!Reservation::where('user_id', $idUser)->where('id', $id)->count()){
                 throw new Exception('Para editar uma reserva você deve ser o criador da mesma.');
             }else{
                 Reservation::where('id', $id)->update(['title' => $title, 'start' => $startdate, 'end' => $enddate]);
@@ -122,8 +126,8 @@ class ReservationController extends Controller
         $response = [];
         try{
 
-            if(!collect(Reservation::where('user_id', Auth::user()->id)->where('id', $id)->get())->count()){
-                throw new Exception('Para editar uma reserva você deve ser o criador da mesma.');
+            if(!Reservation::where('user_id', Auth::user()->id)->where('id', $id)->count()){
+                throw new Exception('Para remover uma reserva você deve ser o criador da mesma.');
             }else{
                 Reservation::where('id', $id)->delete();
             }

@@ -85,6 +85,7 @@ function initCalendar(idRoom, reservation) {
         },
         allDaySlot: false,
         eventReceive: function (event) {
+            var idroom = $('.nav-tabs').children('.active').data('idroom');
             var title = event.title;
             var start = event.start.format("YYYY-MM-DD[T]HH:mm:SS");
             var end = event.end.format("YYYY-MM-DD[T]HH:mm:SS");
@@ -95,20 +96,25 @@ function initCalendar(idRoom, reservation) {
                     'startdate': start,
                     'enddate': end,
                     'zone': zone,
-                    'idroom': $('.nav-tabs').children('.active').data('idroom')
+                    'idroom': idroom
                 },
                 type: 'POST',
                 dataType: 'json',
                 success: function (response) {
-                    event.id = response.reservationId;
-                    $('#calendar_room_' + idRoom).fullCalendar('updateEvent', event);
+                    if (response.status != 'success') {
+                        $('#calendar_room_' + idroom).fullCalendar('removeEvents');
+                        getFreshEventsByRoom(idroom);
+                        alert(response.msg);
+                    }else {
+                        event.id = response.reservationId;
+                        $('#calendar_room_' + idRoom).fullCalendar('updateEvent', event);
+                    }
                 },
                 error: function (e) {
                     console.log(e.responseText);
 
                 }
             });
-            $('#calendar_room_' + idRoom).fullCalendar('updateEvent', event);
             console.log(event);
         },
         eventDrop: function (event, delta, revertFunc) {
