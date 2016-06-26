@@ -20,3 +20,6 @@ Route::auth();
 Route::get('/', 'HomeController@index');
 
 Route::resource('reservation', 'ReservationController');
+
+Route::get('/reservation/byRoom/{idRoom}', 'ReservationController@byRoom');
+

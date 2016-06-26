@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Reservation;
 use App\Room;
 use Exception;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
@@ -42,18 +44,13 @@ class ReservationController extends Controller
         $response = [];
         $title = $request->input('title');
         $startdate = $request->input('startdate').'+'.$request->input('zone');
-        $room = $request->input('room');
-
-       /* $startdate = $_POST['startdate'].'+'.$_POST['zone'];
-        $title = $_POST['title'];
-        $insert = mysqli_query($con,"INSERT INTO calendar(`title`, `startdate`, `enddate`, `allDay`) VALUES('$title','$startdate','$startdate','false')");
-        $lastid = mysqli_insert_id($con);
-        echo json_encode(array('status'=>'success','eventid'=>$lastid));*/
-
+        $enddate = $request->input('enddate').'+'.$request->input('zone');
+        $idRoom = $request->input('idroom');
+        $idUser = Auth::user()->id;
         try{
 
-
-            $response = ['status'=>'success','eventid'=>1];
+            $reservation = Reservation::create(['title' => $title, 'start' => $startdate, 'end' => $enddate, 'room_id' => $idRoom, 'user_id' => $idUser]);
+            $response = ['status'=>'success','reservationId'=> $reservation->id];
 
         }catch (Exception $e){
             $response = ['status'=>'error'];
@@ -92,7 +89,26 @@ class ReservationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $response = [];
+        $title = $request->input('title');
+        $startdate = $request->input('startdate').'+'.$request->input('zone');
+        $enddate = $request->input('enddate').'+'.$request->input('zone');
+        $idUser = Auth::user()->id;
+        try{
+
+
+            if(!collect(Reservation::where('user_id', $idUser)->where('id', $id)->get())->count()){
+                throw new Exception('Para editar uma reserva você deve ser o criador da mesma.');
+            }else{
+                Reservation::where('id', $id)->update(['title' => $title, 'start' => $startdate, 'end' => $enddate]);
+            }
+
+            $response = ['status'=>'success'];
+
+        }catch (Exception $e){
+            $response = ['status'=>'error', 'msg' => $e->getMessage()];
+        }
+        return $response;
     }
 
     /**
@@ -103,6 +119,31 @@ class ReservationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $response = [];
+        try{
+
+            if(!collect(Reservation::where('user_id', Auth::user()->id)->where('id', $id)->get())->count()){
+                throw new Exception('Para editar uma reserva você deve ser o criador da mesma.');
+            }else{
+                Reservation::where('id', $id)->delete();
+            }
+
+            $response = ['status'=>'success'];
+
+        }catch (Exception $e){
+            $response = ['status'=>'error', 'msg' => $e->getMessage()];
+        }
+        return $response;
+    }
+
+    /**
+     * Display the specified resource by Room.
+     *
+     * @param  int  $idRoom
+     * @return \Illuminate\Http\Response
+     */
+    public function byRoom($idRoom){
+        
+        return Reservation::where('room_id', $idRoom)->get();
     }
 }
