@@ -7,7 +7,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Visualização de Sala</div>
                     <div class="panel-body">
-                        <a href="{{ URL::to('room') }}">Listagem de Salas</a>
+                        <a href="{{ URL::to('room') }}">Lista de Salas</a>
 
                         <h1>Visualização</h1>
 
