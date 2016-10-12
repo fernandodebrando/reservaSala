@@ -21,7 +21,7 @@
                                             onclick="renderCalendar({{$room['id']}})">{{$room['name']}}</a></li>
                             @empty
                                 <li>
-                                    <div class="alert alert-info">Sem registros! Primeiro deve existir uma sala cadastrada.</div>
+                                    <div class="alert alert-info">Sem registros! Primeiramente deve existir uma sala cadastrada.</div>
                                 </li>
                             @endforelse
                         </ul>
